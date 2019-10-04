@@ -18,3 +18,6 @@ if 'COMPUTER_VISION_ENDPOINT' in os.environ['COMPUTER_VISION_ENDPOINT']
 else:
 	print("\nSet the COMPUTER_VISION_ENDPOINT environment variable.\n**Restart your shell or IDE for changes to take effect.**")
 
+# Instantiate a client with key credentials and endpoint
+credentials = CognitiveServicesCredentials(subscription_key)
+computervision_client = ComputerVisionClient(endpoint, credentials)
