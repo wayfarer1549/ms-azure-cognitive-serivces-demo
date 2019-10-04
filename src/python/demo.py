@@ -41,3 +41,25 @@ text_recognition_mode = TextRecognitionMode.printed
 num_chars_in_operation_id = 36
 client_response = computervision_client.batch_read_file(remote_image_url, text_recognition_mode, raw=True)
 
+# Get READ results
+# Get the operation ID returned from the batch_read_file call, and use it to query the service for operation results.
+# Checks the operation at one-second intervals until the results are returned.
+# Print the extracted text data to the console.
+operation_location = client_response.headers["Operation-Location"]
+id_location = len(operation_location) - num_chars_in_operation_id
+operation_id = operation_location[id_location:]
+
+print("\nRecognizing text in a remote image with the batch READ API ... \n")
+
+while True:
+	result = computervision_client.get_read_operation_result(operation_id)
+	if result.status not in ['NotStarted', 'Running']:
+		break
+	time.sleep(1)
+
+if result.status == TextOperationStatusCodes.succeeded:
+	for text_result in result.recognition_results:
+		for line in text_result.lines:
+			print(line.text)
+			print(line.bounding_box)
+			print()
