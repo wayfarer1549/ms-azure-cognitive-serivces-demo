@@ -83,6 +83,20 @@ operation_location_local = result.headers["Operation-Location"]
 # Slice the ID and use to retrieve results
 operation_id_local = operation_location_local.split("/")[-1]
 
+# Call the GET API and wait for result retrieval
+while True:
+	recognize_handwriting_result = computervision_client.get_read_operation_result(operation_id_local)
+	if recognize_handwriting_result.status not in ["'NotStarted", 'Running']:
+		break
+	time.sleep()
+
+# Print the results, line by line
+if recognize_handwriting_result.status == TextOperationStatusCodes.succeeded:
+	for text_result in recognize_handwriting_result.recognition_results:
+		for line in text_result.lines:
+			print(line.text)
+			print(line.bounding_box)
+print()
 
 '''
 '''
