@@ -23,9 +23,10 @@ else:
 credentials = CognitiveServicesCredentials(subscription_key)
 computervision_client = ComputerVisionClient(endpoint, credentials)
 
+'''
 # Retrieve a remote image for analysis
-remote_image_url = "https://raw.githubusercontent.com/Azure-Samples/cognitive-services-sample-data-files/master/ComputerVision/Images/printed_text.jpg"
-print("\n\nRemote image URL:\n" + remote_image_url)
+#remote_image_url = "https://raw.githubusercontent.com/Azure-Samples/cognitive-services-sample-data-files/master/ComputerVision/Images/printed_text.jpg"
+#print("\n\nRemote image URL:\n" + remote_image_url)
 
 # Call the Read API
 # Recognize text with the Read API in a remote image by:
@@ -38,9 +39,10 @@ print("\n\nRemote image URL:\n" + remote_image_url)
 #      response
 #   4. Waiting for the operation to complete.
 #   5. Displaying the results.
+remote_image_url = "https://raw.githubusercontent.com/Azure-Samples/cognitive-services-sample-data-files/master/ComputerVision/Images/printed_text.jpg"
 text_recognition_mode = TextRecognitionMode.printed
 num_chars_in_operation_id = 36
-client_response = computervision_client.batch_read_file(remote_image_url, text_recognition_mode, raw=True)
+client_response = computervision_client.batch_read_file(remote_image_url,  raw=True, kwargs=text_recognition_mode)
 
 # Get READ results
 # Get the operation ID returned from the batch_read_file call, and use it to query the service for operation results.
@@ -64,3 +66,23 @@ if result.status == TextOperationStatusCodes.succeeded:
 			print(line.text)
 			print(line.bounding_box)
 			print()
+'''
+# Recognize handwritten text - local
+# This example extracts handwritten text from a local image file and displays the results
+print("=== Detect handwritten text - local ===")
+
+# Open the local file
+local_image_path = "resources\\handwritten_text.jpg"
+
+local_image = open(local_image_path, "rb")
+
+# Call API with the image and raw response
+result = computervision_client.batch_read_file_in_stream(local_image, raw=True)
+# Get the operation location (URL + ID at end)
+operation_location_local = result.headers["Operation-Location"]
+# Slice the ID and use to retrieve results
+operation_id_local = operation_location_local.split("/")[-1]
+
+
+'''
+'''
