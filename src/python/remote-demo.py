@@ -69,3 +69,5 @@ for polygon in polygons:
     ax.axes.add_patch(patch)
     plt.text(vertices[0][0], vertices[0][1], text, fontsize=20, va="top")
 
+plt.show()
+
