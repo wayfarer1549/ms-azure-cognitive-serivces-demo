@@ -8,8 +8,8 @@ from PIL import Image
 from io import BytesIO
 
 # Add your Computer Vision subscription key and endpoint to your environment variables.
-if 'COMPUTER_VISION_SUBSCRIPTION_KEY' in os.environ:
-    subscription_key = os.environ['COMPUTER_VISION_SUBSCRIPTION_KEY']
+if 'COGNITIVE_SERVICE_KEY' in os.environ:
+    subscription_key = os.environ['COGNITIVE_SERVICE_KEY']
 else:
     print("\nSet the COMPUTER_VISION_SUBSCRIPTION_KEY environment variable.\n**Restart your shell or IDE for changes to take effect.**")
     sys.exit()
